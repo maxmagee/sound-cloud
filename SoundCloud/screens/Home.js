@@ -6,8 +6,8 @@ class HomeScreen extends Component {
         return (
             <View style={styles.container}>
                 <Button 
-                    title='Go to Login Screen'
-                    onPress={() => this.props.navigation.navigate('Login')}
+                    title='Home'
+                    onPress={() => this.props.navigation.navigate('Stream')}
                 />         
             </View>
         );
