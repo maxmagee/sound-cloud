@@ -2,12 +2,20 @@ import React, { Component } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 
 class HomeScreen extends Component {
+    static navigationOptions = {
+        headerTitle: 'Home',
+        headerTitleStyle: {
+            color: '#444',
+            fontWeight: 'normal'
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <Button 
-                    title='Home'
-                    onPress={() => this.props.navigation.navigate('Stream')}
+                    title='Play Song'
+                    onPress={() => this.props.navigation.navigate('Song')}
                 />         
             </View>
         );

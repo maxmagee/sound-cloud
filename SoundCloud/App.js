@@ -1,5 +1,9 @@
 import React from 'react';
-import { createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+import { 
+  createBottomTabNavigator, 
+  createStackNavigator,
+  createSwitchNavigator
+} from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -7,13 +11,35 @@ import HomeScreen from './screens/Home';
 import LoginScreen from './screens/Login';
 import ProfileScreen from './screens/Profile';
 import SearchScreen from './screens/Search';
+import SongScreen from './screens/Song';
 import StreamScreen from './screens/Stream';
 
-const Tabs = createBottomTabNavigator({
+// Stack Navigators
+const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  Stream: StreamScreen,
-  Search: SearchScreen,
-  Profile: ProfileScreen
+  Song: SongScreen
+});
+
+const StreamStack = createStackNavigator({
+  Home: StreamScreen,
+  Song: SongScreen
+});
+
+const SearchStack = createStackNavigator({
+  Home: SearchScreen,
+  Song: SongScreen
+});
+
+const ProfileStack = createStackNavigator({
+  Home: ProfileScreen,
+  Song: SongScreen
+});
+
+const Tabs = createBottomTabNavigator({
+  Home: HomeStack,
+  Stream: StreamStack,
+  Search: SearchStack,
+  Profile: ProfileStack
 }, {
   navigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ tintColor }) => {
