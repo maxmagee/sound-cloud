@@ -4,6 +4,7 @@ import {
     Button,
     Dimensions,
     Easing,
+    PanResponder,
     SafeAreaView,
     StyleSheet,
     Text,
@@ -25,6 +26,37 @@ class SongScreen extends Component {
         this.animatedValue = new Animated.Value(0);
     }
 
+    componentWillMount() {
+        this.animation = new Animated.ValueXY({ x: 0, y: 0 });
+        this.PanResponder = PanResponder.create({
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,   // eslint-disable-line
+            onPanResponderMove: (evt, gestureState) => {
+                this.animation.setValue({ x: 0, y: gestureState.dy });
+            },
+            onPanResponderRelease: (evt, gestureState) => {
+                if (gestureState.moveY < SCREEN_HEIGHT && gestureState.dy < 0) {
+                    Animated.spring(this.animation.y, {
+                        toValue: 0,
+                        tension: 1,
+                        useNativeDriver: true
+                    }).start();
+                } else if (gestureState.dy < 0) {
+                    Animated.spring(this.animation.y, {
+                        toValue: 0,
+                        tension: 1,
+                        useNativeDriver: true
+                    }).start();
+                } else if (gestureState.dy > 0) {
+                    Animated.spring(this.animation.y, {
+                        toValue: SCREEN_HEIGHT - 60,
+                        tension: 1,
+                        useNativeDriver: true
+                    }).start();
+                }
+            }
+        });
+    }
+
     componentDidMount() {
         this.animate();
     }
@@ -43,6 +75,22 @@ class SongScreen extends Component {
     }
 
     render() {
+        const animatedHeight = {
+            transform: this.animation.getTranslateTransform()
+        };
+
+        const animatedIconOpacity = this.animation.y.interpolate({
+            inputRange: [0, SCREEN_HEIGHT - 200, SCREEN_HEIGHT - 60],
+            outputRange: [0, 0, 1],
+            extrapolate: 'clamp'
+        });
+
+        const animatedScreenOpacity = this.animation.y.interpolate({
+            inputRange: [SCREEN_HEIGHT - 500, SCREEN_HEIGHT - 150, SCREEN_HEIGHT - 60],
+            outputRange: [1, 0, 0],
+            extrapolate: 'clamp'
+        });
+
         return (
             <SafeAreaView>
                 <View style={styles.container}>
@@ -51,7 +99,10 @@ class SongScreen extends Component {
                         onPress={() => this.props.navigation.navigate('Home')}
                     />
                 </View>
-                <Animated.View style={styles.imageContainer}>
+                <Animated.View 
+                    {...this.PanResponder.panHandlers}
+                    style={[animatedHeight, styles.imageContainer]}
+                >
                     <Animated.Image
                         source={songBackground}
                         style={{
@@ -66,7 +117,9 @@ class SongScreen extends Component {
                             position: 'absolute'
                         }}
                     />
-                    <Animated.View style={styles.upperMostIcons}>
+                    <Animated.View 
+                        style={[styles.upperMostIcons, { opacity: animatedIconOpacity }]}
+                    >
                         <TouchableOpacity>
                             <MaterialIcons 
                                 name='play-arrow' 
@@ -94,7 +147,7 @@ class SongScreen extends Component {
                         </TouchableOpacity>
                     </Animated.View>
 
-                    <Animated.View style={styles.upperIcons}>
+                    <Animated.View style={[styles.upperIcons, { opacity: animatedScreenOpacity }]}>
                         <Animated.View style={styles.upperLeftIcons}>
                             <TouchableOpacity>
                                 <Text style={styles.artistName}>Stellardrone</Text>
@@ -116,7 +169,7 @@ class SongScreen extends Component {
                         </Animated.View>
                     </Animated.View>
 
-                    <Animated.View style={styles.lowerIcons}>
+                    <Animated.View style={[styles.lowerIcons, { opacity: animatedScreenOpacity }]}>
                         <Animated.View style={styles.lowerIconWrapper}>
                             <TouchableOpacity style={styles.likes}>
                                 <MaterialCommunityIcons
