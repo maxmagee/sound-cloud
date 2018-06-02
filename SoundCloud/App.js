@@ -17,23 +17,41 @@ import StreamScreen from './screens/Stream';
 // Stack Navigators
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  Song: SongScreen
+  Song: {
+    screen: SongScreen,
+    navigationOptions: ({ navigation }) => ({ // eslint-disable-line no-unused-vars
+      header: null
+    })
+  }
 });
 
 const StreamStack = createStackNavigator({
-  Home: StreamScreen,
+  Stream: StreamScreen,
   Song: SongScreen
 });
 
 const SearchStack = createStackNavigator({
-  Home: SearchScreen,
+  Search: SearchScreen,
   Song: SongScreen
 });
 
 const ProfileStack = createStackNavigator({
-  Home: ProfileScreen,
+  Profile: ProfileScreen,
   Song: SongScreen
 });
+
+HomeStack.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
+  const navigationOptions = {};
+
+  if (routeName === 'Song') {
+    navigationOptions.tabBarVisible = false;
+  }
+
+  return navigationOptions;
+};
+
+// Tab Navigator
 
 const Tabs = createBottomTabNavigator({
   Home: HomeStack,
@@ -69,6 +87,8 @@ const Tabs = createBottomTabNavigator({
     }
   }
 });
+
+// Switch Navigator
 
 const Switch = createSwitchNavigator({
   Login: LoginScreen,
