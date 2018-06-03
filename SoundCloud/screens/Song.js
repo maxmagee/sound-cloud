@@ -27,6 +27,11 @@ class SongScreen extends Component {
         this.imageSlideDuration = 20000;
     }
 
+    state = {
+        liked: false,
+        likeCount: 1414
+    }
+
     componentWillMount() {
         this.animation = new Animated.ValueXY({ x: 0, y: 0 });
         this.PanResponder = PanResponder.create({
@@ -81,6 +86,16 @@ class SongScreen extends Component {
             tension: 1,
             useNativeDriver: true
         }).start();
+    }
+
+    toggleLiked = () => {
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                liked: !prevState.liked,
+                likeCount: prevState.liked ? prevState.likeCount - 1 : prevState.likeCount + 1
+            };
+        });
     }
 
     render() {
@@ -152,11 +167,13 @@ class SongScreen extends Component {
                             </TouchableOpacity>
                         </View>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={this.toggleLiked}
+                        >
                             <MaterialCommunityIcons 
                                 name='heart' 
                                 size={30} 
-                                style={{ color: 'white' }} 
+                                style={{ color: this.state.liked ? 'red' : 'white' }} 
                             />
                         </TouchableOpacity>
                     </Animated.View>
@@ -186,13 +203,16 @@ class SongScreen extends Component {
 
                     <Animated.View style={[styles.lowerIcons, { opacity: animatedScreenOpacity }]}>
                         <Animated.View style={styles.lowerIconWrapper}>
-                            <TouchableOpacity style={styles.likes}>
+                            <TouchableOpacity 
+                                style={styles.likes}
+                                onPress={this.toggleLiked}
+                            >
                                 <MaterialCommunityIcons
                                     name='heart'
                                     size={25}
-                                    style={{ color: 'white' }}
+                                    style={{ color: this.state.liked ? 'red' : 'white' }}
                                 />
-                                <Text style={{ color: 'white' }}>1,414</Text>
+                                <Text style={{ color: 'white' }}>{this.state.likeCount}</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity>
