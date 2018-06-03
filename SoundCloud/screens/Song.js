@@ -74,6 +74,14 @@ class SongScreen extends Component {
         ).start(() => this.animate());
     }
 
+    animateToBottom = () => {
+        Animated.spring(this.animation.y, {
+            toValue: SCREEN_HEIGHT - 60,
+            tension: 1,
+            useNativeDriver: true
+        }).start();
+    }
+
     render() {
         const animatedHeight = {
             transform: this.animation.getTranslateTransform()
@@ -169,6 +177,7 @@ class SongScreen extends Component {
                                     name='chevron-down'
                                     size={40}
                                     style={styles.upperRightIcon}
+                                    onPress={this.animateToBottom}
                                 />
                             </TouchableOpacity>
                         </Animated.View>
