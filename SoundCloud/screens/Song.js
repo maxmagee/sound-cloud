@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { 
     Animated,
-    Button,
     Dimensions,
     Easing,
     PanResponder,
@@ -12,6 +11,7 @@ import {
     View 
 } from 'react-native';
 import FeatherIcons from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -94,10 +94,15 @@ class SongScreen extends Component {
         return (
             <SafeAreaView>
                 <View style={styles.container}>
-                    <Button
-                        title='Song'
+                    <Ionicons
+                        style={styles.headerIcon}
+                        name='ios-arrow-back'
+                        size={30}
+                        color='grey'
                         onPress={() => this.props.navigation.navigate('Home')}
                     />
+                    <Text style={styles.headerText}>Playlist</Text>
+                    <View style={{ flex: 1 }} />
                 </View>
                 <Animated.View 
                     {...this.PanResponder.panHandlers}
@@ -222,10 +227,19 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     },
     container: {
-        flex: 1,
         alignItems: 'center',
-        backgroundColor: '#fff',
-        justifyContent: 'center'
+        borderBottomWidth: 0.5,
+        borderColor: '#999',
+        flexDirection: 'row',
+        marginTop: 50
+    },
+    headerIcon: {
+        marginLeft: 10,
+        marginRight: 135
+    },
+    headerText: {
+        fontSize: 18,
+        color: '#444'
     },
     imageContainer: {
         position: 'absolute',
