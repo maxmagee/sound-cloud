@@ -8,7 +8,7 @@ class LoginScreen extends Component {
             <View style={styles.container}>
                 <Icon
                     name='soundcloud'
-                    size={50}
+                    size={100}
                     color={'white'}
                     onPress={() => this.props.navigation.navigate('Home')}
                 />
