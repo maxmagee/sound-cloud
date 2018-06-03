@@ -25,7 +25,7 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#fff',
         justifyContent: 'center',
         flex: 1,
     }
