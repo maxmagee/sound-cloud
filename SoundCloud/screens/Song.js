@@ -24,6 +24,7 @@ class SongScreen extends Component {
     constructor() {
         super();
         this.animatedValue = new Animated.Value(0);
+        this.imageSlideDuration = 20000;
     }
 
     componentWillMount() {
@@ -58,20 +59,20 @@ class SongScreen extends Component {
     }
 
     componentDidMount() {
-        this.animate();
+        this.slideImage(0, 1);
     }
 
-    animate() {
-        this.animatedValue.setValue(0);
+    slideImage(startValue, endValue) {
+        this.animatedValue.setValue(startValue);
         Animated.timing(
             this.animatedValue,
             {
-                toValue: 1,
-                duration: 90000,
+                toValue: endValue,
+                duration: this.imageSlideDuration,
                 easing: Easing.linear,
                 useNativeDriver: true
             }
-        ).start(() => this.animate());
+        ).start(() => this.slideImage(endValue, startValue));
     }
 
     animateToBottom = () => {
