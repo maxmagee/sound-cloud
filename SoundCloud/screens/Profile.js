@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 
 class ProfileScreen extends Component {
+    static navigationOptions = {
+        headerTitle: 'Profile',
+        headerTitleStyle: {
+            color: '#444',
+            fontWeight: 'normal'
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>

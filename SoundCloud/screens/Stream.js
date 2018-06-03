@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 
 class StreamScreen extends Component {
+    static navigationOptions = {
+        headerTitle: 'Stream',
+        headerTitleStyle: {
+            color: '#444',
+            fontWeight: 'normal'
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
